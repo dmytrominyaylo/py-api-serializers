@@ -31,13 +31,18 @@ class MovieApiTests(TestCase):
             "title": "Titanic",
             "description": "Titanic description",
             "duration": 123,
-            "genres": ["Drama", "Comedy"],
-            "actors": ["Kate Winslet"],
+            "genres": [
+                {"id": 1, "name": "Drama"},
+                {"id": 2, "name": "Comedy"}
+            ],
+            "actors": [
+                {"id": 1, "first_name": "Kate", "last_name": "Winslet", "full_name": "Kate Winslet"}
+            ],
         }
         print(movies.data)
         self.assertEqual(movies.status_code, status.HTTP_200_OK)
         for field in titanic:
-            self.assertEqual(movies.data[0]["genres"], [{"id": 1, "name": "Drama"}, {"id": 2, "name": "Comedy"}])
+            self.assertEqual(movies.data[0][field], titanic[field])
 
     def test_post_movies(self):
         movies = self.client.post(
