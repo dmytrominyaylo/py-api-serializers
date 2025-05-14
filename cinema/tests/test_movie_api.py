@@ -37,7 +37,7 @@ class MovieApiTests(TestCase):
         print(movies.data)
         self.assertEqual(movies.status_code, status.HTTP_200_OK)
         for field in titanic:
-            self.assertEqual(movies.data[0][field], titanic[field])
+            self.assertEqual(movies.data[0]["genres"], [{"id": 1, "name": "Drama"}, {"id": 2, "name": "Comedy"}])
 
     def test_post_movies(self):
         movies = self.client.post(

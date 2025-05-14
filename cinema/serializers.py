@@ -54,13 +54,24 @@ class MovieSerializer(serializers.ModelSerializer):
 
 
 class MovieListSerializer(MovieSerializer):
-    genres = serializers.StringRelatedField(many=True)
-    actors = serializers.StringRelatedField(many=True)
-
-
-class MovieRetrieveSerializer(MovieSerializer):
     genres = GenreSerializer(many=True)
     actors = ActorSerializer(many=True)
+
+
+class MovieRetrieveSerializer(serializers.ModelSerializer):
+    genres = GenreSerializer(many=True)
+    actors = ActorSerializer(many=True)
+
+    class Meta:
+        model = Movie
+        fields = [
+            "id",
+            "title",
+            "description",
+            "duration",
+            "genres",
+            "actors"
+        ]
 
 
 class MovieSessionSerializer(serializers.ModelSerializer):
@@ -93,5 +104,5 @@ class MovieSessionListSerializer(serializers.ModelSerializer):
 
 
 class MovieSessionRetrieveSerializer(MovieSessionSerializer):
-    movie = MovieListSerializer()
+    movie = MovieRetrieveSerializer()
     cinema_hall = CinemaHallSerializer()
